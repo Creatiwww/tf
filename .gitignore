@@ -32,8 +32,3 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
-Status

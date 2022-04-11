@@ -1,3 +1,5 @@
+# ==================== NETWORK =========================
+
 module "vpc" {
   source = "../../modules/vpc"
 
@@ -19,6 +21,18 @@ resource "aws_route_table_association" "RT-IG-Association" {
   route_table_id = module.vpc.aws_route_table_id
 }
 
+# ==================== SERVERS =========================
+
+locals {
+  key_name = "AWS_Jenkins_Master_Key"
+}
+
+module "jenkins_master_key_pair" {
+  source = "../../modules/key-pair"
+
+  key_name = local.key_name
+}
+
 module "jenkins_master" {
   source = "../../modules/instance"
 
@@ -26,5 +40,6 @@ module "jenkins_master" {
   instance_type = "t3.micro"
   subnet_id     = module.subnet_public.subnet_id
   tag_name      = "Jenkins Master"
+  key_name      = local.key_name
   vpc_id        = module.vpc.aws_vpc_id
 }
